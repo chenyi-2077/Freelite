@@ -1,12 +1,12 @@
 # Freelite 🚀
 
-> 自由职业者协作平台 — 轻量版 Freelancer  
+> 自由职业项目竞标平台 — 轻量版 Freelancer  
 > 项目口号：**让自由协作，如此简单**
 
 ## 项目简介
 
 Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功能。  
-雇主可以发布项目，自由职业者可以竞标接单，完成工作后评价评分。  
+雇主发布项目，自由职业者竞标接单，完成后评价评分。
 ——国内没有同类好产品，我们自己造。
 
 ## 技术栈
@@ -23,7 +23,7 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 
 | 角色 | 成员 | 模块 | 主要文件 |
 |---|---|---|---|
-| ⭐ **A（组长）** | @chenyi-2077 | 用户系统 + 整合 | User.java, LoginServlet, ProfileServlet, login.jsp, register.jsp |
+| ⭐ **A(组长)** | @chenyi-2077 | 用户系统 + 整合 | User.java, LoginServlet, ProfileServlet, login.jsp, register.jsp |
 | **B** | 待定 | 项目发布与浏览 | Project.java, ProjectListServlet, projectList.jsp, postProject.jsp |
 | **C** | 待定 | 竞标系统 | Bid.java, PlaceBidServlet, AwardBidServlet, bidForm.jsp |
 | **D** | 待定 | 订单与评价 | Order.java, Review.java, DashboardServlet, dashboard.jsp |
@@ -34,7 +34,7 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 - JDK 8+
 - Apache Tomcat 8.5+
 - MySQL 5.7+
-- Eclipse IDE 2026-03（或任意支持 Dynamic Web Project 的 IDE）
+- Eclipse IDE 2026-03(或任意支持 Dynamic Web Project 的 IDE)
 
 ### 运行步骤
 
