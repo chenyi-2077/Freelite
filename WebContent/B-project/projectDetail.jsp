@@ -50,7 +50,7 @@
                                     <i class="bi bi-person"></i> <%= project.getEmployerName() %>
                                 </span>
                                 <span class="text-muted ms-2" style="font-size: 0.9rem;">
-                                    <i class="bi bi-calendar"></i> <%= project.getCreatedAt() != null ? project.getCreatedAt().substring(0, 10) : "" %>
+                                    <i class="bi bi-calendar"></i> <% java.time.format.DateTimeFormatter dtf2 = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"); %><%= project.getCreatedAt() != null ? project.getCreatedAt().format(dtf2) : "" %>
                                 </span>
                                 <% if ("open".equals(project.getStatus())) { %>
                                     <span class="badge bg-success ms-2">招募中</span>

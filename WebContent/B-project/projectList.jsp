@@ -110,7 +110,7 @@
                                     <div class="text-end ms-3" style="min-width: 100px;">
                                         <div class="price-tag">¥<%= String.format("%.0f", p.getBudget()) %></div>
                                         <div style="font-size: 0.8rem; color: #999;">
-                                            <%= p.getCreatedAt() != null ? p.getCreatedAt().substring(0, 10) : "" %>
+                                            <% java.time.format.DateTimeFormatter dtf = java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd"); %><%= p.getCreatedAt() != null ? p.getCreatedAt().format(dtf) : "" %>
                                         </div>
                                     </div>
                                 </div>
