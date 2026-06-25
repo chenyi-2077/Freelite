@@ -44,6 +44,7 @@
                 <a href="${pageContext.request.contextPath}/my/projects" class="nav-link">我的项目</a>
                 <a href="${pageContext.request.contextPath}/profile" class="nav-link">个人主页</a>
                 <a href="${pageContext.request.contextPath}/orders" class="nav-link">订单</a>
+                <a href="${pageContext.request.contextPath}/wallet" class="nav-link">钱包</a>
                 <a href="${pageContext.request.contextPath}/dashboard" class="nav-link">看板</a>
                 <a href="${pageContext.request.contextPath}/logout" class="nav-link">退出</a>
             </div>
