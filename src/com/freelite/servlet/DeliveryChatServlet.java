@@ -4,6 +4,7 @@ import com.freelite.dao.*;
 import com.freelite.model.*;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,6 +22,11 @@ import java.util.UUID;
  * POST /deliveryChat?action=message — 发送消息
  * POST /deliveryChat?action=upload — 上传交付物
  */
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2,  // 2MB
+    maxFileSize = 1024 * 1024 * 50,       // 50MB
+    maxRequestSize = 1024 * 1024 * 100    // 100MB
+)
 public class DeliveryChatServlet extends HttpServlet {
 
     private ProjectDao projectDao = new ProjectDao();
