@@ -37,6 +37,18 @@ public class DeliveryChatServlet extends HttpServlet {
 
     private static final String DEFAULT_UPLOAD_DIR = "/home/admin/.openclaw/workspace/freelite-uploads";
     private static final long THIRTY_DAYS_MS = 30L * 24 * 60 * 60 * 1000;
+    private static final double MAX_DISK_USAGE = 0.80; // 80% 磁盘使用上限
+    private static final String[] ALLOWED_EXTENSIONS = {
+        ".pdf", ".zip", ".rar", ".7z", ".tar", ".gz",
+        ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx",
+        ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp",
+        ".txt", ".md", ".csv",
+        ".js", ".css", ".html", ".xml", ".json",
+        ".java", ".py", ".php", ".sql", ".sh",
+        ".mp3", ".mp4", ".mov",
+        ".psd", ".ai", ".fig", ".sketch",
+        ".apk", ".ipa", ".exe"
+    };
 
     private ProjectDao projectDao = new ProjectDao();
     private ProjectMessageDao messageDao = new ProjectMessageDao();
@@ -167,14 +179,36 @@ public class DeliveryChatServlet extends HttpServlet {
             delivery.setTitle(title != null ? title : "");
             delivery.setDescription(description != null ? description : "");
 
+            // 磁盘空间检查
+            File baseDir = new File(getUploadBaseDir());
+            long total = baseDir.getTotalSpace();
+            long free = baseDir.getFreeSpace();
+            double usage = 1.0 - (double) free / total;
+            if (usage > MAX_DISK_USAGE) {
+                req.getSession().setAttribute("errorMsg", "❌ 上传失败：磁盘空间不足（已用 " + String.format("%.0f", usage * 100) + "%）");
+                resp.sendRedirect(req.getContextPath() + "/deliveryChat?projectId=" + projectId);
+                return;
+            }
+
             try {
                 Part filePart = req.getPart("file");
                 if (filePart != null && filePart.getSize() > 0) {
                     String originalName = filePart.getSubmittedFileName();
                     if (originalName != null && !originalName.isEmpty()) {
+                        // 文件类型检查
                         String ext = "";
                         int dotIdx = originalName.lastIndexOf('.');
-                        if (dotIdx > 0) ext = originalName.substring(dotIdx);
+                        if (dotIdx > 0) ext = originalName.substring(dotIdx).toLowerCase();
+                        boolean allowed = false;
+                        for (String ae : ALLOWED_EXTENSIONS) {
+                            if (ae.equals(ext)) { allowed = true; break; }
+                        }
+                        if (!allowed) {
+                            req.getSession().setAttribute("errorMsg", "❌ 不支持的文件类型：" + ext + "。允许的类型：pdf/zip/rar/doc/jpg/png/txt/md/java/py 等常见格式");
+                            resp.sendRedirect(req.getContextPath() + "/deliveryChat?projectId=" + projectId);
+                            return;
+                        }
+
                         String safeName = UUID.randomUUID().toString() + ext;
 
                         String datePath = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy/MM"));
