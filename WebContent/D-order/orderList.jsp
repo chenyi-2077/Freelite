@@ -63,7 +63,7 @@
                                 <span class="badge bg-secondary">已取消</span>
                             <% } %>
                             <div class="mt-1" style="font-size: 0.8rem; color: #999;">
-                                <%= o.getCreatedAt() != null ? o.getCreatedAt().substring(0, 10) : "" %>
+                                <%= o.getCreatedAt() != null ? o.getCreatedAt().toLocalDate().toString() : "" %>
                             </div>
                         </div>
                     </div>
