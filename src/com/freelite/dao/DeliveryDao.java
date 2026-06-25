@@ -10,18 +10,19 @@ import java.util.List;
 public class DeliveryDao {
 
     public int insert(Delivery d) {
-        String sql = "INSERT INTO delivery (order_id, user_id, title, description, file_name, file_path, file_size, file_type) "
-                + "VALUES (?,?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO delivery (order_id, project_id, user_id, title, description, file_name, file_path, file_size, file_type) "
+                + "VALUES (?,?,?,?,?,?,?,?,?)";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, d.getOrderId());
-            ps.setInt(2, d.getUserId());
-            ps.setString(3, d.getTitle());
-            ps.setString(4, d.getDescription());
-            ps.setString(5, d.getFileName());
-            ps.setString(6, d.getFilePath());
-            ps.setLong(7, d.getFileSize());
-            ps.setString(8, d.getFileType());
+            ps.setInt(2, d.getProjectId());
+            ps.setInt(3, d.getUserId());
+            ps.setString(4, d.getTitle());
+            ps.setString(5, d.getDescription());
+            ps.setString(6, d.getFileName());
+            ps.setString(7, d.getFilePath());
+            ps.setLong(8, d.getFileSize());
+            ps.setString(9, d.getFileType());
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) return rs.getInt(1);
@@ -35,9 +36,8 @@ public class DeliveryDao {
     public List<Delivery> findByProjectId(int projectId) {
         List<Delivery> list = new ArrayList<>();
         String sql = "SELECT d.*, u.display_name AS user_name FROM delivery d "
-                + "LEFT JOIN task_order o ON d.order_id = o.id "
                 + "LEFT JOIN user u ON d.user_id = u.id "
-                + "WHERE o.project_id=? ORDER BY d.created_at DESC";
+                + "WHERE d.project_id=? ORDER BY d.created_at DESC";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
             ps.setInt(1, projectId);
@@ -71,6 +71,7 @@ public class DeliveryDao {
         Delivery d = new Delivery();
         d.setId(rs.getInt("id"));
         d.setOrderId(rs.getInt("order_id"));
+        d.setProjectId(rs.getInt("project_id"));
         d.setUserId(rs.getInt("user_id"));
         d.setTitle(rs.getString("title"));
         d.setDescription(rs.getString("description"));

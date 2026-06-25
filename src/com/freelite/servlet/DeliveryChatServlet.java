@@ -96,6 +96,7 @@ public class DeliveryChatServlet extends HttpServlet {
             String description = req.getParameter("description");
 
             Delivery delivery = new Delivery();
+            delivery.setProjectId(projectId);
             delivery.setUserId(loginUser.getId());
             delivery.setTitle(title != null ? title : "");
             delivery.setDescription(description != null ? description : "");

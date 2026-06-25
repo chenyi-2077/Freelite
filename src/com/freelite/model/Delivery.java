@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 public class Delivery {
     private int id;
     private int orderId;
+    private int projectId;
     private int userId;
     private String title;
     private String description;
@@ -21,6 +22,9 @@ public class Delivery {
     public void setId(int id) { this.id = id; }
     public int getOrderId() { return orderId; }
     public void setOrderId(int orderId) { this.orderId = orderId; }
+
+    public int getProjectId() { return projectId; }
+    public void setProjectId(int projectId) { this.projectId = projectId; }
     public int getUserId() { return userId; }
     public void setUserId(int userId) { this.userId = userId; }
     public String getTitle() { return title; }
