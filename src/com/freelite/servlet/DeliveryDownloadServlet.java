@@ -44,8 +44,16 @@ public class DeliveryDownloadServlet extends HttpServlet {
             return;
         }
 
-        String realPath = getServletContext().getRealPath("/WEB-INF/uploads/" + delivery.getFilePath());
-        File file = new File(realPath);
+        String baseDir = "/data/freelite/uploads";
+        File file = new File(baseDir + "/" + delivery.getFilePath());
+        // 回退 webapp 内部路径
+        if (!file.exists()) {
+            file = new File(getServletContext().getRealPath("/WEB-INF/uploads/" + delivery.getFilePath()));
+        }
+        if (!file.exists()) {
+            resp.sendError(404);
+            return;
+        }
         if (!file.exists()) {
             resp.sendError(404);
             return;
