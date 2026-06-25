@@ -32,6 +32,24 @@ public class DeliveryDao {
         return -1;
     }
 
+    public List<Delivery> findByProjectId(int projectId) {
+        List<Delivery> list = new ArrayList<>();
+        String sql = "SELECT d.*, u.display_name AS user_name FROM delivery d "
+                + "LEFT JOIN task_order o ON d.order_id = o.id "
+                + "LEFT JOIN user u ON d.user_id = u.id "
+                + "WHERE o.project_id=? ORDER BY d.created_at DESC";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, projectId);
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) list.add(mapDelivery(rs));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
     public List<Delivery> findByOrderId(int orderId) {
         List<Delivery> list = new ArrayList<>();
         String sql = "SELECT d.*, u.display_name AS user_name FROM delivery d "

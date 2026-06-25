@@ -134,6 +134,9 @@
                     <a href="${pageContext.request.contextPath}/profile/<%= project.getEmployerId() %>" class="btn btn-outline-secondary w-100 mb-2">
                         👤 查看雇主
                     </a>
+                    <a href="${pageContext.request.contextPath}/deliveryChat?projectId=<%= project.getId() %>" class="btn btn-outline-info w-100 mb-2">
+                        📦 交付与沟通
+                    </a>
                     <% if (isOwner && "in_progress".equals(project.getStatus())) { %>
                         <a href="${pageContext.request.contextPath}/orders" class="btn btn-outline-success w-100 mb-2">
                             📦 查看订单
