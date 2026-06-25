@@ -38,6 +38,7 @@
             <a class="navbar-brand" href="${pageContext.request.contextPath}/projects">Freelite</a>
             <div class="d-flex gap-2">
                 <a href="${pageContext.request.contextPath}/projects" class="nav-link">项目</a>
+                <a href="${pageContext.request.contextPath}/my/projects" class="nav-link">我的项目</a>
                 <a href="${pageContext.request.contextPath}/orders" class="nav-link">订单</a>
                 <a href="${pageContext.request.contextPath}/dashboard" class="nav-link">看板</a>
                 <a href="${pageContext.request.contextPath}/logout" class="nav-link">退出</a>
