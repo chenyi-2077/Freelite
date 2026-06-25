@@ -36,9 +36,10 @@ public class OrderDao {
 
     public List<Order> findByProject(int projectId) {
         List<Order> list = new ArrayList<>();
-        String sql = "SELECT o.*, u.display_name AS employer_name, f.display_name AS freelancer_name "
+        String sql = "SELECT o.*, p.title AS project_title, e.display_name AS employer_name, f.display_name AS freelancer_name "
                 + "FROM task_order o "
-                + "LEFT JOIN user u ON o.employer_id = u.id "
+                + "LEFT JOIN project p ON o.project_id = p.id "
+                + "LEFT JOIN user e ON o.employer_id = e.id "
                 + "LEFT JOIN user f ON o.freelancer_id = f.id "
                 + "WHERE o.project_id=? ORDER BY o.created_at DESC";
         try (Connection conn = DBUtil.getConnection();

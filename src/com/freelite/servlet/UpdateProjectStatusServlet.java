@@ -1,18 +1,21 @@
 package com.freelite.servlet;
 
-import com.freelite.dao.ProjectDao;
-import com.freelite.model.Project;
-import com.freelite.model.User;
+import com.freelite.dao.*;
+import com.freelite.model.*;
+import com.freelite.service.EscrowService;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class UpdateProjectStatusServlet extends HttpServlet {
 
     private ProjectDao projectDao = new ProjectDao();
+    private OrderDao orderDao = new OrderDao();
+    private EscrowService escrowService = new EscrowService();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -39,17 +42,37 @@ public class UpdateProjectStatusServlet extends HttpServlet {
         boolean valid = false;
         switch (newStatus) {
             case "cancelled":
-                // open/in_progress 可以取消
                 if ("open".equals(current) || "in_progress".equals(current)) valid = true;
                 break;
             case "open":
-                // 已取消的可重新开放
                 if ("cancelled".equals(current)) valid = true;
                 break;
         }
 
-        if (valid) {
-            projectDao.updateStatus(projectId, newStatus);
+        if (!valid) {
+            resp.sendRedirect(req.getContextPath() + "/project/" + projectId);
+            return;
+        }
+
+        projectDao.updateStatus(projectId, newStatus);
+
+        // 取消项目时：取消关联订单 + 退冻结资金
+        if ("cancelled".equals(newStatus)) {
+            List<Order> orders = orderDao.findByProject(projectId);
+            if (orders != null) {
+                for (Order order : orders) {
+                    String orderStatus = order.getStatus();
+                    // 只取消进行中/等待确认的订单
+                    if ("in_progress".equals(orderStatus) || "awaiting_confirm".equals(orderStatus)) {
+                        // 如有冻结资金则退款给雇主
+                        double escrowAmount = order.getEscrowAmount();
+                        if (escrowAmount > 0) {
+                            escrowService.refundToEmployer(projectId, order.getEmployerId(), escrowAmount);
+                        }
+                        orderDao.updateStatus(order.getId(), "cancelled");
+                    }
+                }
+            }
         }
 
         if (redirect != null && !redirect.isEmpty()) {
