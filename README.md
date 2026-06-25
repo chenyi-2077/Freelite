@@ -16,14 +16,14 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 
 ## 👥 团队与分工
 
-| 编号 | 角色 | 成员 | GitHub | 负责模块 |
-|---|---|---|---|---|
-| ⭐ A | **组长** | **陈怡安** | [@chenyi-2077](https://github.com/chenyi-2077) | 用户系统（注册/登录/个人资料）+ 整合版说明书 |
-| B | 组员 | **陈凯博** | — | 项目发布与浏览模块 |
-| C | 组员 | **陈僖睿** | — | 竞标系统模块 |
-| D | 组员 | **陈子豪** | — | 订单与评价模块 |
+| 编号 | 说明书 | 成员 | 角色 | 负责模块 | 对应源码 |
+|---|---|---|---|---|---|
+| 📄 A | **用户系统模块说明书** | **陈怡安** | ⭐ 组长 | 注册 / 登录 / 个人资料编辑 + 整合版说明书 | `LoginServlet`, `RegisterServlet`, `ProfileServlet`, `EditProfileServlet`, `User.java`, `UserDao`, `login.jsp`, `register.jsp`, `profile.jsp`, `editProfile.jsp` |
+| 📄 B | **项目发布与浏览模块说明书** | **陈凯博** | 组员 | 项目发布 / 项目列表 / 项目详情 / 分类筛选 | `PostProjectServlet`, `ProjectListServlet`, `ProjectDetailServlet`, `Project.java`, `ProjectDao`, `CategoryDao`, `postProject.jsp`, `projectList.jsp`, `projectDetail.jsp` |
+| 📄 C | **竞标系统模块说明书** | **陈僖睿** | 组员 | 竞标出价 / 中标授标 / 我的竞标列表 | `PlaceBidServlet`, `BidListServlet`, `AwardBidServlet`, `MyBidsServlet`, `Bid.java`, `BidDao`, `bidForm.jsp`, `bidsOnProject.jsp`, `myBids.jsp` |
+| 📄 D | **订单与评价模块说明书** | **陈子豪** | 组员 | 订单管理 / 订单完成 / 评价系统 / 数据看板 | `DashboardServlet`, `OrderListServlet`, `OrderDetailServlet`, `CompleteOrderServlet`, `ReviewServlet`, `Order.java`, `Review.java`, `OrderDao`, `ReviewDao`, `dashboard.jsp`, `orderList.jsp`, `orderDetail.jsp` |
 
-> 📄 **详细分工** → [docs/说明书分工.md](docs/说明书分工.md)
+> 📄 **说明书编写模板与要求** → [docs/说明书分工.md](docs/说明书分工.md)
 
 ---
 
