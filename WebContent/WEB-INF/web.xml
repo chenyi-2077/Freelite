@@ -240,7 +240,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>DeliveryDownloadServlet</servlet-name>
-        <url-pattern>/delivery/download</url-pattern>
+        <url-pattern>/file/delivery/*</url-pattern>
     </servlet-mapping>
 
     <servlet>
