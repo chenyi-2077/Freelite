@@ -190,6 +190,7 @@ public class DeliveryChatServlet extends HttpServlet {
                 return;
             }
 
+            boolean uploaded = false;
             try {
                 Part filePart = req.getPart("file");
                 if (filePart != null && filePart.getSize() > 0) {
@@ -222,10 +223,20 @@ public class DeliveryChatServlet extends HttpServlet {
                         delivery.setFilePath(filePath);
                         delivery.setFileSize(filePart.getSize());
                         delivery.setFileType(filePart.getContentType());
+                        uploaded = true;
                     }
                 }
             } catch (Exception e) {
                 e.printStackTrace();
+                req.getSession().setAttribute("errorMsg", "❌ 文件上传失败：" + e.getMessage());
+                resp.sendRedirect(req.getContextPath() + "/deliveryChat?projectId=" + projectId);
+                return;
+            }
+
+            if (!uploaded) {
+                req.getSession().setAttribute("errorMsg", "❌ 上传失败：未选择文件或文件为空");
+                resp.sendRedirect(req.getContextPath() + "/deliveryChat?projectId=" + projectId);
+                return;
             }
 
             deliveryDao.insert(delivery);

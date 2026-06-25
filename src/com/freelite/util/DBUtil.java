@@ -4,15 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-/**
- * 数据库连接工具类
- * 修改 DB_URL, DB_USER, DB_PASSWORD 以匹配你的环境
- */
 public class DBUtil {
-
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/freelite?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&allowPublicKeyRetrieval=true";
+    private static final String DB_URL = "jdbc:mysql://mysql-lab:3306/freelite?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8&allowPublicKeyRetrieval=true";
     private static final String DB_USER = "root";
-    private static final String DB_PASSWORD = "@Aa20185476";
+    private static final String DB_PASSWORD = "root123";
 
     static {
         try {
@@ -23,16 +18,17 @@ public class DBUtil {
     }
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        Connection conn = DriverManager.getConnection(DB_URL, DB_USER, DB_PASSWORD);
+        try (java.sql.Statement st = conn.createStatement()) {
+            st.execute("SET NAMES utf8mb4");
+        }
+        return conn;
     }
 
     public static void close(AutoCloseable... resources) {
         for (AutoCloseable r : resources) {
             if (r != null) {
-                try {
-                    r.close();
-                } catch (Exception ignored) {
-                }
+                try { r.close(); } catch (Exception ignored) {}
             }
         }
     }
