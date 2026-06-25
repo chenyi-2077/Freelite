@@ -113,6 +113,15 @@
         <url-pattern>/project/delete</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>UpdateProjectStatusServlet</servlet-name>
+        <servlet-class>com.freelite.servlet.UpdateProjectStatusServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>UpdateProjectStatusServlet</servlet-name>
+        <url-pattern>/project/status</url-pattern>
+    </servlet-mapping>
+
     <!-- ==================== C - 竞标模块 ==================== -->
     <servlet>
         <servlet-name>PlaceBidServlet</servlet-name>
