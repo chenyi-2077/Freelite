@@ -20,48 +20,100 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 
 | 学号 | 姓名 | 程序模块分工 | 说明书分工 |
 |---|---|---|---|
-| 24030505 | **陈怡安** | 用户系统（注册/登录/资料/权限）、公用组件（DBUtil/数据库脚本）、会话与认证、**结算系统（钱包/充值/担保支付/资金释放）**、**交付与沟通模块**、**交付物文件管理**、**AuthFilter 权限过滤** | 绪论、系统需求分析、说明书格式整合、目录、参考文献 |
-| 24030503 | **陈凯博** | 项目发布与编辑删除、项目列表分页/搜索/分类筛选、项目详情与状态管理（关闭/重新开放）、我的项目列表 | 程序相应的模块及流程图、功能模块图、概念结构设计 |
-| 24030504 | **陈僖睿** | 竞标提交与展示、雇主授标处理、我的竞标记录、竞标消息沟通 | 程序相应的模块及流程图、致谢、功能总结 |
-| 24030505 | **陈子豪** | 中标后订单创建、订单管理与详情、标记完成/确认完成、评价提交与列表、数据看板 | 程序相应的模块及流程图、三线表 |
+| 24030505 | **陈怡安** | 用户注册模块、JWT 认证鉴权模块、个人资料管理模块、用户信息编辑模块、会话管理模块、权限控制模块、AuthFilter 权限过滤、结算系统模块（钱包/充值/担保支付/资金释放/退款）、交付与沟通模块、交付物文件管理模块 | 绪论、系统需求分析、说明书格式整合、目录、参考文献 |
+| 24030503 | **陈凯博** | 项目发布模块、项目列表模块、项目详情模块、项目搜索模块、项目分类筛选模块、我的项目列表模块、项目状态管理模块、项目编辑模块、项目删除模块 | 程序相应的模块及流程图、功能模块图、概念结构设计 |
+| 24030504 | **陈僖睿** | 竞标提交模块、项目竞标列表展示模块、雇主授标处理模块、我的竞标记录模块、竞标消息沟通模块 | 程序相应的模块及流程图、致谢、功能总结 |
+| 24030506 | **陈子豪** | 订单创建模块、订单列表模块、订单详情模块、订单完成确认模块、评价模块、数据看板模块 | 程序相应的模块及流程图、三线表 |
 
 > **选题**：自由职业任务集市
 
 ---
 
+## 各模块对应源码
+
+### 🧑 陈怡安 — 用户系统 + 结算系统 + 交付与沟通
+
+| 模块 | Servlet | DAO | 页面 |
+|---|---|---|---|
+| 用户注册 | `RegisterServlet.java` | `UserDao.java` | `A-user/register.jsp` |
+| 用户登录与JWT认证 | `LoginServlet.java` | | `A-user/login.jsp` |
+| 会话管理/注销 | `LogoutServlet.java` | | |
+| 个人资料 | `ProfileServlet.java` | | `A-user/profile.jsp` |
+| 信息编辑 | `EditProfileServlet.java` | | `A-user/editProfile.jsp` |
+| 通用工具 | | `DBUtil.java` `AuthUtil.java` | `index.jsp` |
+| 数据库脚本 | | | `docs/database.sql` |
+| **权限过滤** | `AuthFilter.java` | | |
+| **钱包** | `WalletServlet.java` | `WalletDao.java` | `wallet.jsp` |
+| **充值** | `RechargeServlet.java` | | |
+| **担保支付服务** | | `EscrowService.java` | |
+| 交易流水 | | `TransactionLogDao.java` | |
+| 实体模型 | `Wallet.java` `TransactionLog.java` | | |
+| **交付与沟通** | `DeliveryChatServlet.java` | `DeliveryDao.java` `ProjectMessageDao.java` | `deliveryChat.jsp` |
+| **交付物下载** | `DeliveryDownloadServlet.java` | | |
+| 交付/消息实体 | `Delivery.java` `ProjectMessage.java` | | |
+
+### 📋 陈凯博 — 项目发布与浏览
+
+| 模块 | Servlet | DAO | 页面 |
+|---|---|---|---|
+| 项目发布 | `PostProjectServlet.java` | `ProjectDao.java` `CategoryDao.java` | `B-project/postProject.jsp` |
+| 项目列表 | `ProjectListServlet.java` | | `B-project/projectList.jsp` |
+| 项目详情 | `ProjectDetailServlet.java` | | `B-project/projectDetail.jsp` |
+| 项目编辑 | `EditProjectServlet.java` | | `B-project/editProject.jsp` |
+| 项目删除 | `DeleteProjectServlet.java` | | |
+| 项目状态管理 | `UpdateProjectStatusServlet.java` | | |
+| 我的项目列表 | `MyProjectsServlet.java` | | `B-project/myProjects.jsp` |
+| 实体模型 | `Project.java` `Category.java` | | |
+
+### 💰 陈僖睿 — 竞标系统
+
+| 模块 | Servlet | DAO | 页面 |
+|---|---|---|---|
+| 竞标提交 | `PlaceBidServlet.java` | `BidDao.java` | `C-bid/bidForm.jsp` |
+| 竞标列表展示 | `BidListServlet.java` | | `C-bid/bidsOnProject.jsp` |
+| 雇主授标处理 | `AwardBidServlet.java` | | |
+| 我的竞标记录 | `MyBidsServlet.java` | | `C-bid/myBids.jsp` |
+| 竞标消息沟通 | `ProjectMessageServlet.java` | | `projectMessages.jsp` |
+| 实体模型 | `Bid.java` | | |
+
+### 📦 陈子豪 — 订单与评价
+
+| 模块 | Servlet | DAO | 页面 |
+|---|---|---|---|
+| 订单创建 | `AwardBidServlet.java` | `OrderDao.java` | |
+| 订单列表 | `OrderListServlet.java` | | `D-order/orderList.jsp` |
+| 订单详情 | `OrderDetailServlet.java` | | `D-order/orderDetail.jsp` |
+| 自由职业者标记完成 | `CompleteOrderServlet.java` | | |
+| 雇主确认完成 | `ConfirmOrderServlet.java` | | |
+| 评价提交/列表 | `ReviewServlet.java` | `ReviewDao.java` | |
+| 数据看板 | `DashboardServlet.java` | | `D-order/dashboard.jsp` |
+| 实体模型 | `Order.java` `Review.java` | | |
+
+---
+
 ## 🏗️ 完整功能模块
 
-### A — 🧑 用户系统（陈怡安）
+### A — 🧑 用户系统
 
 - 用户注册（雇主/自由职业者双角色）、登录、注销
 - 个人资料查看与编辑（头像、技能标签、评分展示）
 - Session 会话管理 + AuthFilter 权限拦截
 
-**对应源码**：`User.java` `LoginServlet.java` `RegisterServlet.java` `ProfileServlet.java` `EditProfileServlet.java` `LogoutServlet.java` `UserDao.java` `AuthFilter.java`  
-**页面**：`A-user/login.jsp` `A-user/register.jsp` `A-user/profile.jsp` `A-user/editProfile.jsp`
-
-### B — 📋 项目发布与浏览（陈凯博）
+### B — 📋 项目发布与浏览
 
 - 项目发布（标题/描述/预算/截止/分类）、编辑、删除
 - 项目市场列表（分页、关键字搜索、分类筛选）
 - 项目详情页、项目状态管理（关闭/重新开放）
 - 我的项目列表
 
-**对应源码**：`Project.java` `Category.java` `PostProjectServlet.java` `ProjectListServlet.java` `ProjectDetailServlet.java` `MyProjectsServlet.java` `EditProjectServlet.java` `DeleteProjectServlet.java` `UpdateProjectStatusServlet.java` `ProjectDao.java` `CategoryDao.java`  
-**页面**：`B-project/postProject.jsp` `B-project/projectList.jsp` `B-project/projectDetail.jsp` `B-project/myProjects.jsp` `B-project/editProject.jsp`
-
-### C — 💰 竞标系统（陈僖睿）
+### C — 💰 竞标系统
 
 - 自由职业者提交竞标（报价/工期/方案）
 - 项目竞标列表展示（按金额/工期排序）
 - 雇主授标处理（→ 自动创建订单 + 担保冻结雇主余额）
-- 我的竞标记录
-- 竞标者资料查看
+- 我的竞标记录、竞标消息沟通
 
-**对应源码**：`Bid.java` `PlaceBidServlet.java` `BidListServlet.java` `AwardBidServlet.java` `MyBidsServlet.java` `BidDao.java`  
-**页面**：`C-bid/bidForm.jsp` `C-bid/bidsOnProject.jsp` `C-bid/myBids.jsp`
-
-### D — 📦 订单与评价（陈子豪）
+### D — 📦 订单与评价
 
 - 中标后订单自动创建
 - 订单列表（雇主与自由职业者分视角）
@@ -70,10 +122,7 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 - 评价提交与评价列表
 - 数据看板统计（项目/竞标/订单/评价数量）
 
-**对应源码**：`Order.java` `Review.java` `OrderListServlet.java` `OrderDetailServlet.java` `CompleteOrderServlet.java` `ConfirmOrderServlet.java` `ReviewServlet.java` `DashboardServlet.java` `OrderDao.java` `ReviewDao.java`  
-**页面**：`D-order/orderList.jsp` `D-order/orderDetail.jsp` `D-order/dashboard.jsp`
-
-### E — 💳 结算系统（陈怡安）
+### E — 💳 结算系统
 
 - 钱包管理（余额/冻结金额展示）
 - 充值功能
@@ -82,10 +131,7 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 - **退款**：项目取消时解冻退还雇主（`refundToEmployer`）
 - 交易流水记录（recharge / freeze / release / refund / income）
 
-**对应源码**：`Wallet.java` `TransactionLog.java` `EscrowService.java` `WalletServlet.java` `RechargeServlet.java` `WalletDao.java` `TransactionLogDao.java`  
-**页面**：`wallet.jsp`
-
-### F — 💬 交付与沟通（陈怡安）
+### F — 💬 交付与沟通
 
 - **统一交付沟通页**：项目和沟通消息 + 交付物管理双 Tab
 - **消息系统**：项目参与方可发送文本消息
@@ -93,9 +139,6 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 - **交付物下载**：雇主下载交付文件（回退友好提示）
 - **30 天自动清理**：启动时异步清理过期文件
 - **权限控制**：仅项目雇主和中标自由职业者可访问
-
-**对应源码**：`Delivery.java` `ProjectMessage.java` `DeliveryChatServlet.java` `DeliveryDownloadServlet.java` `DeliveryDao.java` `ProjectMessageDao.java`  
-**页面**：`deliveryChat.jsp`
 
 ---
 
@@ -167,7 +210,7 @@ Freelite/
 ├── src/com/freelite/
 │   ├── model/           ← 实体类
 │   ├── dao/             ← 数据访问层
-│   ├── servlet/         ← 控制层（23 个 Servlet）
+│   ├── servlet/         ← 控制层（27 个 Servlet）
 │   ├── service/         ← 业务层（EscrowService）
 │   ├── filter/          ← 过滤器（AuthFilter）
 │   └── util/            ← 工具类（DBUtil、AuthUtil）
@@ -196,7 +239,7 @@ Freelite/
 ### 交付物流程
 
 ```
-自由职业者上传（type白名单/UUID命名/磁盘检查）
+自由职业者上传（类型白名单/UUID命名/磁盘检查）
   → 文件存储到 uploads/yyyy/MM/
   → 雇主下载（文件路径回退友好提示）
   → 30天自动清理旧文件
@@ -208,7 +251,7 @@ Freelite/
 open ──→ in_progress ──→ completed
   │                        ↑
   ├──→ cancelled ──────→ open (重新开放)
-  └──→ (通过按钮关闭/取消)
+  └──→ (通过按钮取消)
 ```
 
 ---
