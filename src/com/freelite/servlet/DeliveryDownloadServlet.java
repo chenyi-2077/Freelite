@@ -18,7 +18,7 @@ import javax.servlet.annotation.WebServlet;
 /**
  * 下载交付物
  */
-@WebServlet("/file/download")
+@WebServlet("/filedownload")
 public class DeliveryDownloadServlet extends HttpServlet {
 
     private DeliveryDao deliveryDao = new DeliveryDao();
