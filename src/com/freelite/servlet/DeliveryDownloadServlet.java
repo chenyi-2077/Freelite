@@ -44,7 +44,7 @@ public class DeliveryDownloadServlet extends HttpServlet {
             return;
         }
 
-        String baseDir = "/data/freelite/uploads";
+        String baseDir = "/home/admin/.openclaw/workspace/freelite-uploads";
         File file = new File(baseDir + "/" + delivery.getFilePath());
         // 回退 webapp 内部路径
         if (!file.exists()) {

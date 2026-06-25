@@ -26,7 +26,7 @@ import java.util.UUID;
  * POST /deliveryChat?action=upload — 上传交付物
  * 
  * 文件存储路径可通过 web.xml init-param uploadDir 配置，
- * 默认 /data/freelite/uploads/ （Docker volume 挂载路径）
+ * 默认 /home/admin/.openclaw/workspace/freelite-uploads/ （Docker volume 挂载路径）
  */
 @MultipartConfig(
     fileSizeThreshold = 1024 * 1024 * 2,  // 2MB
@@ -35,7 +35,7 @@ import java.util.UUID;
 )
 public class DeliveryChatServlet extends HttpServlet {
 
-    private static final String DEFAULT_UPLOAD_DIR = "/data/freelite/uploads";
+    private static final String DEFAULT_UPLOAD_DIR = "/home/admin/.openclaw/workspace/freelite-uploads";
     private static final long THIRTY_DAYS_MS = 30L * 24 * 60 * 60 * 1000;
 
     private ProjectDao projectDao = new ProjectDao();
