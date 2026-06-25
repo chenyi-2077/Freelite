@@ -25,120 +25,87 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 
 ---
 
-## 🗺️ 功能模块图
+## 🗺️ 项目说明书分工
 
-### A — 👤 用户系统（陈怡安）
+### A — 用户系统说明书（陈怡安）
 
-```
-用户系统 ─┬─ 注册功能 ─┬─ register.jsp — 注册表单页面（用户名/密码/邮箱/姓名/角色）
-          │            ├─ RegisterServlet.java — 接收注册请求，校验字段，检测用户名重复
-          │            └─ UserDao.java — 注册 insert、用户名查重 query
-          │
-          ├─ 登录功能 ─┬─ login.jsp — 登录表单页面（用户名/密码/角色选择）
-          │            ├─ LoginServlet.java — 接收登录请求，校验密码，生成 JWT 令牌
-          │            ├─ LogoutServlet.java — 登出，清除 JWT
-          │            └─ UserDao.java — 用户名密码查询
-          │
-          ├─ 个人资料 ─┬─ profile.jsp — 个人资料展示页面
-          │            ├─ ProfileServlet.java — 根据 JWT 获取用户信息并展示
-          │            ├─ editProfile.jsp — 编辑资料表单页面
-          │            ├─ EditProfileServlet.java — 保存编辑后的资料
-          │            └─ UserDao.java — 用户信息查询、更新
-          │
-          └─ 数据模型 ─── User.java — 用户实体类（id/username/password/name/email/role/createdAt）
-```
+| 章节 | 内容 | 需画图 |
+|---|---|---|
+| 绪论 | 项目背景、用户系统定位 | — |
+| 需求分析 | 注册/登录/资料编辑功能需求、用例描述 | — |
+| 数据库设计 | User 表字段定义、关系说明 | ER 图 |
+| 功能模块图 | 用户系统子功能拆解（注册→校验/查重/加密） | 树状功能模块图 |
+| 核心业务流程 | 用户注册流程、登录JWT鉴权流程、资料编辑流程 | 用户注册流程图、登录JWT鉴权时序图、资料编辑流程图 |
+| 界面设计与核心代码 | login.jsp/register.jsp/profile.jsp/editProfile.jsp 截图 + LoginServlet/RegisterServlet 代码 | 界面截图 |
+| 测试用例 | 注册成功、重复用户名、密码错误、未登录访问资料 | 三线表 |
+| 功能总结与致谢 | 技术亮点、遇到的困难、致谢 | — |
 
-### B — 📋 项目发布与浏览（陈凯博）
+### B — 项目发布与浏览说明书（陈凯博）
 
-```
-项目系统 ─┬─ 发布项目 ─┬─ postProject.jsp — 发布项目表单（标题/描述/预算/分类/截止日期）
-          │            ├─ PostProjectServlet.java — 接收发布请求，校验字段，写入数据库
-          │            └─ ProjectDao.java — 项目 insert
-          │
-          ├─ 项目列表 ─┬─ projectList.jsp — 项目列表展示页面（分页 + 分类筛选）
-          │            ├─ ProjectListServlet.java — 查询项目列表，支持分页和分类筛选
-          │            └─ ProjectDao.java — 项目多条件查询、分页
-          │
-          ├─ 项目详情 ─┬─ projectDetail.jsp — 项目详情展示页面
-          │            ├─ ProjectDetailServlet.java — 查询单个项目完整信息
-          │            └─ ProjectDao.java — 按 ID 查询项目
-          │
-          ├─ 分类管理 ─┬─ CategoryDao.java — 分类数据查询
-          │            └─ Category.java — 分类实体类（id/name）
-          │
-          └─ 数据模型 ─── Project.java — 项目实体类（id/title/description/budget/categoryId/posterId/status/createdAt）
-```
+| 章节 | 内容 | 需画图 |
+|---|---|---|
+| 绪论 | 项目发布模块定位 | — |
+| 需求分析 | 发布项目/浏览列表/详情查看/分类筛选功能需求 | — |
+| 数据库设计 | Project 表、Category 表字段定义 | ER 图 |
+| 功能模块图 | 项目系统子功能拆解 | 树状功能模块图 |
+| 核心业务流程 | 发布项目流程、项目列表分页+筛选流程、项目详情查看流程 | 发布项目流程图、项目列表筛选流程图、项目详情查看流程图 |
+| 界面设计与核心代码 | postProject.jsp/projectList.jsp/projectDetail.jsp 截图 + PostProjectServlet/ProjectListServlet 代码 | 界面截图 |
+| 测试用例 | 发布成功、字段为空、不登录访问、分类筛选 | 三线表 |
+| 功能总结与致谢 | 技术亮点、遇到的困难、致谢 | — |
 
-### C — 🏷️ 竞标系统（陈僖睿）
+### C — 竞标系统说明书（陈僖睿）
 
-```
-竞标系统 ─┬─ 提交竞标 ─┬─ bidForm.jsp — 竞标表单页面（出价金额/留言）
-          │            ├─ PlaceBidServlet.java — 接收竞标请求，校验登录、项目状态、重复竞标
-          │            └─ BidDao.java — 竞标 insert
-          │
-          ├─ 竞标列表 ─┬─ bidsOnProject.jsp — 项目下所有竞标列表页面
-          │            ├─ BidListServlet.java — 查询指定项目下所有竞标
-          │            └─ BidDao.java — 按项目 ID 查询竞标列表
-          │
-          ├─ 中标授标 ─┬─ AwardBidServlet.java — 雇主授标给竞标者，更新项目/竞标状态
-          │            └─ BidDao.java / ProjectDao.java — 更新竞标和项目状态
-          │
-          ├─ 我的竞标 ─┬─ myBids.jsp — 当前用户的所有竞标记录页面
-          │            ├─ MyBidsServlet.java — 查询当前用户提交的所有竞标
-          │            └─ BidDao.java — 按用户 ID 查询竞标
-          │
-          └─ 数据模型 ─── Bid.java — 竞标实体类（id/projectId/bidderId/amount/message/status/createdAt）
-```
+| 章节 | 内容 | 需画图 |
+|---|---|---|
+| 绪论 | 竞标系统定位 | — |
+| 需求分析 | 提交竞标/竞标列表/中标授标/我的竞标功能需求 | — |
+| 数据库设计 | Bid 表字段定义、与 Project/User 关系 | ER 图 |
+| 功能模块图 | 竞标系统子功能拆解 | 树状功能模块图 |
+| 核心业务流程 | 提交竞标流程、雇主授标流程、查看竞标列表流程 | 提交竞标流程图、授标时序图、竞标列表流程图 |
+| 界面设计与核心代码 | bidForm.jsp/bidsOnProject.jsp/myBids.jsp 截图 + PlaceBidServlet/AwardBidServlet 代码 | 界面截图 |
+| 测试用例 | 竞标成功、重复竞标、未登录竞标、雇主授标 | 三线表 |
+| 功能总结与致谢 | 技术亮点、遇到的困难、致谢 | — |
 
-### D — ⭐ 订单与评价（陈子豪）
+### D — 订单与评价说明书（陈子豪）
 
-```
-订单系统 ─┬─ 订单管理 ─┬─ orderList.jsp — 订单列表页面（按用户角色显示不同视角）
-          │            ├─ orderDetail.jsp — 订单详情页面
-          │            ├─ OrderListServlet.java — 查询用户相关订单列表
-          │            ├─ OrderDetailServlet.java — 查询单个订单详情
-          │            └─ OrderDao.java — 订单增删改查
-          │
-          ├─ 完成订单 ─┬─ CompleteOrderServlet.java — 中标后创建订单，更新订单完成状态
-          │            └─ OrderDao.java — 订单 insert / update
-          │
-          ├─ 评价系统 ─┬─ ReviewServlet.java — 订单完成后提交评价（评分+评论）
-          │            └─ ReviewDao.java — 评价 insert / 按项目/用户查询
-          │
-          ├─ 数据看板 ─┬─ dashboard.jsp — 数据看板展示页面（统计图表）
-          │            ├─ DashboardServlet.java — 统计数据：项目数、竞标数、订单数、评价
-          │            ├─ ProjectDao.java — 项目统计查询
-          │            ├─ BidDao.java — 竞标统计查询
-          │            ├─ OrderDao.java — 订单统计查询
-          │            └─ ReviewDao.java — 评价统计查询
-          │
-          └─ 数据模型 ─┬─ Order.java — 订单实体类（id/projectId/buyerId/sellerId/amount/status/createdAt）
-                       └─ Review.java — 评价实体类（id/orderId/fromUserId/toUserId/rating/comment/createdAt）
-```
+| 章节 | 内容 | 需画图 |
+|---|---|---|
+| 绪论 | 订单与评价模块定位 | — |
+| 需求分析 | 订单管理/订单完成/评价/数据看板功能需求 | — |
+| 数据库设计 | Order 表、Review 表字段定义、与 Project/User 关系 | ER 图 |
+| 功能模块图 | 订单与评价系统子功能拆解 | 树状功能模块图 |
+| 核心业务流程 | 中标→订单创建流程、订单完成流程、评价流程、数据看板统计逻辑 | 订单创建流程图、订单完成流程图、评价流程图、数据看板统计流程图 |
+| 界面设计与核心代码 | dashboard.jsp/orderList.jsp/orderDetail.jsp 截图 + DashboardServlet/ReviewServlet 代码 | 界面截图 |
+| 测试用例 | 订单完成、提交评价、数据看板统计、未登录访问 | 三线表 |
+| 功能总结与致谢 | 技术亮点、遇到的困难、致谢 | — |
 
-### 🔧 公用组件（整合版说明书法完善）
+### 🌐 整合版项目说明书（陈怡安 组长）
 
-```
-公用 ─┬─ DBUtil.java — MySQL 数据库连接管理与关闭
-      ├─ index.jsp / index.html — 首页/入口页面
-      └─ 整合版说明书 — 四人模块合并 + 项目架构 + 部署文档 + 参考文献
-```
+| 章节 | 内容 |
+|---|---|
+| 封面 | 项目名称、团队信息、日期 |
+| 摘要 | 200 字项目整体概述 |
+| 目录 | 全文档目录 |
+| 第一章 项目概述 | 技术栈、整体架构图（B/S 三层架构）、整体功能模块图、系统主页 |
+| 第二章 数据库设计与创建 | 全局 ER 图、全部表定义整合、database.sql 说明 |
+| 第三章 各模块详解 | 四份说明书精编合并（A→D 按顺序） |
+| 第四章 系统部署与使用说明 | Tomcat 部署步骤、MySQL 导入、运行截图 |
+| 第五章 项目总结与展望 | 功能总结、不足与改进方向 |
+| 参考文献 | JSP/Servlet/MySQL/Bootstrap 等技术引用 |
+| 致谢 | — |
 
 ---
 
-## 📚 项目说明书分配
+## 📚 说明书文件
 
-| 编号 | 说明书 | 负责人 | 字数要求 |
-|---|---|---|---|
-| 📄 A | **用户系统模块说明书** | **陈怡安** | 2000-4000 字 |
-| 📄 B | **项目发布与浏览模块说明书** | **陈凯博** | 2000-4000 字 |
-| 📄 C | **竞标系统模块说明书** | **陈僖睿** | 2000-4000 字 |
-| 📄 D | **订单与评价模块说明书** | **陈子豪** | 2000-4000 字 |
-| 📄 🌐 | **整合版项目说明书** | **陈怡安** | 四模块合并 |
-
-> 📘 说明书编写详细模板与要求 → [docs/说明书分工.md](docs/说明书分工.md)
->
-> 每份说明书需包含：绪论、需求分析、数据库设计(含ER图)、功能模块图、核心流程图、界面设计与核心代码、测试用例(三线表)、功能总结与致谢
+| 文件 | 负责人 | 状态 |
+|---|---|---|
+| `docs/说明书分工.md` | 陈怡安 | ✅ 已更新 |
+| `docs/说明书_用户系统.md` | 陈怡安 | ⬜ 待编写 |
+| `docs/说明书_项目发布与浏览.md` | 陈凯博 | ⬜ 待编写 |
+| `docs/说明书_竞标系统.md` | 陈僖睿 | ⬜ 待编写 |
+| `docs/说明书_订单与评价.md` | 陈子豪 | ⬜ 待编写 |
+| `docs/说明书_整合版.md` | 陈怡安 | ⬜ 待编写 |
 
 ---
 
@@ -187,7 +154,7 @@ private static final String PASSWORD = "***";
 
 ---
 
-## 🗂️ 项目文件结构一览
+## 🗂️ 项目文件结构
 
 ```
 Freelite/
@@ -201,12 +168,12 @@ Freelite/
 │   ├── B-project/      ← 项目模块（B 陈凯博）
 │   ├── C-bid/          ← 竞标模块（C 陈僖睿）
 │   ├── D-order/        ← 订单模块（D 陈子豪）
-│   └── index.jsp
+│   └── index.jsp / index.html
 ├── src/com/freelite/
-│   ├── model/          ← 实体类（5 个）
-│   ├── dao/            ← 数据访问层（10 个）
+│   ├── model/          ← 实体类（User/Project/Category/Bid/Order/Review）
+│   ├── dao/            ← 数据访问层
 │   ├── servlet/        ← 控制层（15 个 Servlet）
-│   └── util/           ← 工具类
+│   └── util/           ← 工具类（DBUtil、JWTUtil）
 └── .gitignore
 ```
 
