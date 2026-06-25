@@ -15,6 +15,7 @@ public class UpdateProjectStatusServlet extends HttpServlet {
 
     private ProjectDao projectDao = new ProjectDao();
     private OrderDao orderDao = new OrderDao();
+    private BidDao bidDao = new BidDao();
     private EscrowService escrowService = new EscrowService();
 
     @Override
@@ -56,20 +57,34 @@ public class UpdateProjectStatusServlet extends HttpServlet {
 
         projectDao.updateStatus(projectId, newStatus);
 
-        // 取消项目时：取消关联订单 + 退冻结资金
-        if ("cancelled".equals(newStatus)) {
-            List<Order> orders = orderDao.findByProject(projectId);
-            if (orders != null) {
-                for (Order order : orders) {
+        // 取消/恢复时处理关联订单
+        List<Order> orders = orderDao.findByProject(projectId);
+        if (orders != null) {
+            for (Order order : orders) {
+                if ("cancelled".equals(newStatus)) {
+                    // 取消项目：取消进行中/等待确认的订单 + 退冻结资金
                     String orderStatus = order.getStatus();
-                    // 只取消进行中/等待确认的订单
                     if ("in_progress".equals(orderStatus) || "awaiting_confirm".equals(orderStatus)) {
-                        // 如有冻结资金则退款给雇主
                         double escrowAmount = order.getEscrowAmount();
                         if (escrowAmount > 0) {
                             escrowService.refundToEmployer(projectId, order.getEmployerId(), escrowAmount);
                         }
                         orderDao.updateStatus(order.getId(), "cancelled");
+                    }
+                } else if ("open".equals(newStatus)) {
+                    // 重新开放：清理之前的所有订单
+                    orderDao.updateStatus(order.getId(), "cancelled");
+                }
+            }
+        }
+
+        // 重新开放时：把已中标的竞标改回 pending
+        if ("open".equals(newStatus)) {
+            List<com.freelite.model.Bid> bids = bidDao.findByProjectId(projectId);
+            if (bids != null) {
+                for (com.freelite.model.Bid b : bids) {
+                    if ("accepted".equals(b.getStatus())) {
+                        bidDao.updateStatus(b.getId(), "pending");
                     }
                 }
             }
