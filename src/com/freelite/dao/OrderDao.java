@@ -57,14 +57,15 @@ public class OrderDao {
     }
 
     public int insert(Order order) {
-        String sql = "INSERT INTO task_order (project_id, employer_id, freelancer_id, amount, status) "
-                + "VALUES (?,?,?,?,'in_progress')";
+        String sql = "INSERT INTO task_order (project_id, employer_id, freelancer_id, amount, escrow_amount, status) "
+                + "VALUES (?,?,?,?,?,'in_progress')";
         try (Connection conn = DBUtil.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             ps.setInt(1, order.getProjectId());
             ps.setInt(2, order.getEmployerId());
             ps.setInt(3, order.getFreelancerId());
             ps.setDouble(4, order.getAmount());
+            ps.setDouble(5, order.getAmount()); // escrow_amount = amount
             ps.executeUpdate();
             try (ResultSet rs = ps.getGeneratedKeys()) {
                 if (rs.next()) return rs.getInt(1);
@@ -154,6 +155,7 @@ public class OrderDao {
         o.setEmployerId(rs.getInt("employer_id"));
         o.setFreelancerId(rs.getInt("freelancer_id"));
         o.setAmount(rs.getDouble("amount"));
+        o.setEscrowAmount(rs.getDouble("escrow_amount"));
         o.setStatus(rs.getString("status"));
         Timestamp ts = rs.getTimestamp("created_at");
         if (ts != null) o.setCreatedAt(ts.toLocalDateTime());

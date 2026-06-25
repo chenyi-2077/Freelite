@@ -43,8 +43,42 @@
                     <p><i class="bi bi-person-gear"></i> <strong>自由职业者：</strong> <%= order.getFreelancerName() %></p>
                     <p><i class="bi bi-coin"></i> <strong>金额：</strong> <span class="price-tag">¥<%= String.format("%.0f", order.getAmount()) %></span></p>
                     <p><i class="bi bi-calendar"></i> <strong>创建时间：</strong> <%= order.getCreatedAt() %></p>
+                    <p><i class="bi bi-shield-lock"></i> <strong>托管金额：</strong> ¥<%= String.format("%.2f", order.getEscrowAmount()) %></p>
+                    <%
+                        String escrowStatus = "unknown";
+                        try {
+                            // 从 session 或 request 获取 (后续需要从 Project 查)
+                        } catch(Exception e){}
+                    %>
 
                     <hr>
+
+                    <%-- 结算状态 --%>
+                    <% if ("in_progress".equals(order.getStatus())) { %>
+                        <div class="alert alert-info">
+                            <strong>🔒 资金托管中</strong><br>
+                            ¥<%= String.format("%.2f", order.getEscrowAmount()) %> 已在担保账户冻结，工作完成后由雇主确认释放。
+                        </div>
+                    <% } else if ("awaiting_confirm".equals(order.getStatus())) { %>
+                        <div class="alert alert-warning">
+                            <strong>⏳ 等待雇主确认</strong><br>
+                            自由职业者已标记完成，请雇主确认工作成果以释放托管资金。
+                        </div>
+                        <% if (isEmployer) { %>
+                            <form action="${pageContext.request.contextPath}/order/confirm" method="post" class="mb-3">
+                                <input type="hidden" name="orderId" value="<%= order.getId() %>">
+                                <button type="submit" class="btn btn-success w-100" style="border-radius: 8px; padding: 12px; font-weight: 600;"
+                                        onclick="return confirm('确认完成后，¥<%= String.format("%.2f", order.getEscrowAmount()) %> 将释放到自由职业者钱包。确认吗？')">
+                                    ✅ 确认完成，释放资金
+                                </button>
+                            </form>
+                        <% } %>
+                    <% } else if ("completed".equals(order.getStatus())) { %>
+                        <div class="alert alert-success">
+                            <strong>✅ 已结算完成</strong><br>
+                            托管资金已释放到自由职业者钱包。
+                        </div>
+                    <% } %>
 
                     <%-- 完成订单（自由职业者） --%>
                     <% if ("in_progress".equals(order.getStatus()) && !isEmployer) { %>

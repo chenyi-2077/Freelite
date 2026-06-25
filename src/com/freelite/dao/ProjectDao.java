@@ -182,6 +182,19 @@ public class ProjectDao {
         }
     }
 
+    public void updateEscrow(int id, double amount, String status) {
+        String sql = "UPDATE project SET escrow_amount=?, escrow_status=? WHERE id=?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setDouble(1, amount);
+            ps.setString(2, status);
+            ps.setInt(3, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateStatus(int id, String status) {
         String sql = "UPDATE project SET status=? WHERE id=?";
         try (Connection conn = DBUtil.getConnection();

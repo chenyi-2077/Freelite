@@ -205,6 +205,34 @@
         <url-pattern>/dashboard</url-pattern>
     </servlet-mapping>
 
+    <!-- ==================== E - 结算系统 ==================== -->
+    <servlet>
+        <servlet-name>WalletServlet</servlet-name>
+        <servlet-class>com.freelite.servlet.WalletServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WalletServlet</servlet-name>
+        <url-pattern>/wallet</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>RechargeServlet</servlet-name>
+        <servlet-class>com.freelite.servlet.RechargeServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RechargeServlet</servlet-name>
+        <url-pattern>/recharge</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>ConfirmOrderServlet</servlet-name>
+        <servlet-class>com.freelite.servlet.ConfirmOrderServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ConfirmOrderServlet</servlet-name>
+        <url-pattern>/order/confirm</url-pattern>
+    </servlet-mapping>
+
     <!-- 登录认证过滤器 -->
     <filter>
         <filter-name>AuthFilter</filter-name>

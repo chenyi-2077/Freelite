@@ -8,7 +8,8 @@ public class Order {
     private int employerId;
     private int freelancerId;
     private double amount;
-    private String status;       // "in_progress" | "completed" | "cancelled"
+    private double escrowAmount;
+    private String status;       // "in_progress" | "awaiting_confirm" | "completed" | "cancelled"
     private LocalDateTime createdAt;
 
     // 关联字段
@@ -31,6 +32,9 @@ public class Order {
 
     public double getAmount() { return amount; }
     public void setAmount(double amount) { this.amount = amount; }
+
+    public double getEscrowAmount() { return escrowAmount; }
+    public void setEscrowAmount(double escrowAmount) { this.escrowAmount = escrowAmount; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }
