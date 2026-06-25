@@ -12,89 +12,19 @@ Freelite 是一个 B/S 架构的 Web 应用，对标 Freelancer.com 的核心功
 
 **技术栈**：JSP + Bootstrap 5 + Java Servlet + JDBC + MySQL 5.7 + Tomcat 8.5
 
----
+## 👥 团队与分工
 
-## 👥 团队
-
-| 编号 | 成员 | 角色 | GitHub |
+| 学号 | 姓名 | 程序模块分工 | 说明书分工 |
 |---|---|---|---|
-| ⭐ A | **陈怡安** | 组长 | [@chenyi-2077](https://github.com/chenyi-2077) |
-| B | **陈凯博** | 组员 | — |
-| C | **陈僖睿** | 组员 | — |
-| D | **陈子豪** | 组员 | — |
+| 24030505 | **陈怡安** | 用户注册、登录、JWT 认证鉴权、个人资料管理、信息编辑、权限控制、密码修改、用户注销、管理员用户管理 | 用户系统模块说明书、整合版项目说明书 |
+| 24030503 | **陈凯博** | 项目发布、项目列表展示、分类筛选、项目详情、项目搜索、项目状态管理、项目编辑/删除、我的项目列表 | 项目发布与浏览模块说明书 |
+| 24030504 | **陈僖睿** | 竞标提交、竞标列表、雇主授标、我的竞标记录、竞标撤回、竞标消息沟通、竞标者资料查看 | 竞标系统模块说明书 |
+| 24030506 | **陈子豪** | 订单管理、订单创建、订单完成确认、订单取消、评价提交、评价列表查看、数据看板、Excel 报表导出 | 订单与评价模块说明书 |
 
----
-
-## 🗺️ 项目说明书分工
-
-### A — 👤 用户系统说明书（陈怡安）
-
-1. 用户注册
-2. 用户登录
-3. JWT 认证鉴权
-4. 个人资料管理
-5. 用户信息编辑
-6. 权限控制
-7. 用户密码修改
-8. 用户注销
-9. 管理员用户管理（列表/禁用/删除）
-10. 用户模块数据库设计与创建（User 表）
-11. 用户模块设计与实现
-
-**对应源码**：User.java、LoginServlet.java、RegisterServlet.java、ProfileServlet.java、EditProfileServlet.java、LogoutServlet.java、UserDao.java、login.jsp、register.jsp、profile.jsp、editProfile.jsp
-
-### B — 📋 项目发布与浏览说明书（陈凯博）
-
-1. 项目发布
-2. 项目列表展示
-3. 项目分类筛选
-4. 项目详情查看
-5. 项目搜索（关键词）
-6. 项目状态管理（开放/进行中/已关闭）
-7. 项目编辑/删除（雇主）
-8. 我的项目列表（雇主视角）
-9. 项目模块数据库设计与创建（Project 表、Category 表）
-10. 项目模块设计与实现
-
-**对应源码**：Project.java、Category.java、PostProjectServlet.java、ProjectListServlet.java、ProjectDetailServlet.java、ProjectDao.java、CategoryDao.java、postProject.jsp、projectList.jsp、projectDetail.jsp
-
-### C — 🏷️ 竞标系统说明书（陈僖睿）
-
-1. 竞标提交
-2. 竞标列表（项目视角）
-3. 雇主授标
-4. 我的竞标记录（自由职业者视角）
-5. 竞标撤回
-6. 竞标消息沟通
-7. 竞标者资料查看
-8. 竞标模块数据库设计与创建（Bid 表）
-9. 竞标模块设计与实现
-
-**对应源码**：Bid.java、PlaceBidServlet.java、BidListServlet.java、AwardBidServlet.java、MyBidsServlet.java、BidDao.java、bidForm.jsp、bidsOnProject.jsp、myBids.jsp
-
-### D — ⭐ 订单与评价说明书（陈子豪）
-
-1. 订单管理（列表/详情）
-2. 订单创建（中标→自动生成）
-3. 订单完成确认
-4. 订单取消（争议）
-5. 评价提交（评分+评论）
-6. 评价列表查看
-7. 数据看板（项目/竞标/订单/评价统计）
-8. Excel 报表导出
-9. 订单与评价模块数据库设计与创建（Order 表、Review 表）
-10. 订单模块设计与实现
-
-**对应源码**：Order.java、Review.java、CompleteOrderServlet.java、OrderListServlet.java、OrderDetailServlet.java、ReviewServlet.java、DashboardServlet.java、OrderDao.java、ReviewDao.java、dashboard.jsp、orderList.jsp、orderDetail.jsp
-
-### 🌐 整合版项目说明书（陈怡安 — 组长额外）
-
-1. 项目架构设计与搭建
-2. Docker 部署方案
-3. 分页/工具类基础架构
-4. 数据库 SQL 初始化脚本
-5. 公用组件（DBUtil、index.jsp）
-6. 整合版项目说明书（合并四模块 + 项目架构 + 部署文档 + 参考文献 + 致谢）
+> **选题**：自由职业任务集市（Freelite）
+> **技术栈**：JSP + Bootstrap 5 + Java Servlet + JDBC + MySQL 5.7 + Tomcat 8.5
+>
+> 📘 详细模块功能说明和对应源码 → [docs/说明书分工.md](docs/说明书分工.md)
 
 ---
 
