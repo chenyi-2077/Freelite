@@ -18,7 +18,6 @@ import javax.servlet.annotation.WebServlet;
 /**
  * 下载交付物
  */
-@WebServlet("/filedownload")
 public class DeliveryDownloadServlet extends HttpServlet {
 
     private DeliveryDao deliveryDao = new DeliveryDao();
@@ -51,10 +50,6 @@ public class DeliveryDownloadServlet extends HttpServlet {
         // 回退 webapp 内部路径
         if (!file.exists()) {
             file = new File(getServletContext().getRealPath("/WEB-INF/uploads/" + delivery.getFilePath()));
-        }
-        if (!file.exists()) {
-            resp.sendError(404);
-            return;
         }
         if (!file.exists()) {
             resp.setContentType("text/html;charset=UTF-8");
