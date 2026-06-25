@@ -145,6 +145,43 @@ public class ProjectDao {
         return list;
     }
 
+    /**
+     * 更新项目完整信息
+     */
+    public void update(Project p) {
+        String sql = "UPDATE project SET title=?, description=?, budget=?, deadline=?, category_id=? WHERE id=?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setString(1, p.getTitle());
+            ps.setString(2, p.getDescription());
+            ps.setDouble(3, p.getBudget());
+            if (p.getDeadline() != null) {
+                ps.setDate(4, Date.valueOf(p.getDeadline()));
+            } else {
+                ps.setNull(4, Types.DATE);
+            }
+            ps.setInt(5, p.getCategoryId());
+            ps.setInt(6, p.getId());
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 删除项目
+     */
+    public void delete(int id) {
+        String sql = "DELETE FROM project WHERE id=?";
+        try (Connection conn = DBUtil.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public void updateStatus(int id, String status) {
         String sql = "UPDATE project SET status=? WHERE id=?";
         try (Connection conn = DBUtil.getConnection();

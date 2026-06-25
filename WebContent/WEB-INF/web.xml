@@ -95,6 +95,24 @@
         <url-pattern>/project/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>EditProjectServlet</servlet-name>
+        <servlet-class>com.freelite.servlet.EditProjectServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>EditProjectServlet</servlet-name>
+        <url-pattern>/project/edit</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>DeleteProjectServlet</servlet-name>
+        <servlet-class>com.freelite.servlet.DeleteProjectServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>DeleteProjectServlet</servlet-name>
+        <url-pattern>/project/delete</url-pattern>
+    </servlet-mapping>
+
     <!-- ==================== C - 竞标模块 ==================== -->
     <servlet>
         <servlet-name>PlaceBidServlet</servlet-name>
