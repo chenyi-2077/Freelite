@@ -1,4 +1,4 @@
-<%@ page import="java.util.List, com.freelite.model.*" %>
+<%@ page import="java.util.List, java.time.LocalDateTime, java.time.format.DateTimeFormatter, com.freelite.model.*" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%
     User loginUser = (User) session.getAttribute("user");
@@ -81,7 +81,7 @@
                                     <div class="msg-sender"><%= isSelf ? "我" : msg.getSenderName() %></div>
                                     <div><%= msg.getContent() %></div>
                                     <div class="msg-time text-end">
-                                        <%= msg.getCreatedAt() != null ? msg.getCreatedAt().toString().replace("T", " ").substring(0, 19) : "" %>
+                                        <%= msg.getCreatedAt() != null ? msg.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : "" %>
                                     </div>
                                 </div>
                             </div>
@@ -115,7 +115,7 @@
                                         <strong><%= d.getTitle() != null && !d.getTitle().isEmpty() ? d.getTitle() : "交付物 #" + d.getId() %></strong><br>
                                         <small class="text-muted">
                                             上传者：<%= d.getUserName() %> | 
-                                            <%= d.getCreatedAt() != null ? d.getCreatedAt().toString().replace("T", " ").substring(0, 19) : "" %>
+                                            <%= d.getCreatedAt() != null ? d.getCreatedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")) : "" %>
                                         </small>
                                     </div>
                                     <% if (d.getFileName() != null && !d.getFileName().isEmpty()) { %>

@@ -1,5 +1,8 @@
 FROM tomcat:8.5-jdk11
 
+# 设置时区为东八区
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && echo "Asia/Shanghai" > /etc/timezone
+
 # 删除默认 ROOT 应用
 RUN rm -rf /usr/local/tomcat/webapps/ROOT
 

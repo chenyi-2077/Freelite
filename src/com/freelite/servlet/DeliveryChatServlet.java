@@ -53,6 +53,7 @@ public class DeliveryChatServlet extends HttpServlet {
     private ProjectDao projectDao = new ProjectDao();
     private ProjectMessageDao messageDao = new ProjectMessageDao();
     private DeliveryDao deliveryDao = new DeliveryDao();
+    private OrderDao orderDao = new OrderDao();
 
     private String getUploadBaseDir() {
         // 优先用外部路径
@@ -129,6 +130,12 @@ public class DeliveryChatServlet extends HttpServlet {
             return;
         }
 
+        // 权限检查：只有雇主或中标自由职业者能看
+        if (!hasAccess(loginUser, project)) {
+            resp.sendError(403);
+            return;
+        }
+
         List<ProjectMessage> messages = messageDao.findByProjectId(projectId);
         List<Delivery> deliveries = deliveryDao.findByProjectId(projectId);
 
@@ -157,6 +164,17 @@ public class DeliveryChatServlet extends HttpServlet {
             return;
         }
         int projectId = Integer.parseInt(projectIdStr);
+
+        // 权限检查：只有雇主或中标自由职业者能操作
+        Project project = projectDao.findById(projectId);
+        if (project == null) {
+            resp.sendRedirect(req.getContextPath() + "/projects");
+            return;
+        }
+        if (!hasAccess(loginUser, project)) {
+            resp.sendError(403);
+            return;
+        }
 
         if ("message".equals(action)) {
             // 发送消息
@@ -244,5 +262,23 @@ public class DeliveryChatServlet extends HttpServlet {
         }
 
         resp.sendRedirect(req.getContextPath() + "/deliveryChat?projectId=" + projectId);
+    }
+
+    /**
+     * 检查当前用户是否有权访问该项目的沟通/交付页面
+     * 项目雇主和中标自由职业者有权限
+     */
+    private boolean hasAccess(User user, Project project) {
+        if (user == null || project == null) return false;
+        // 项目雇主
+        if (user.getId() == project.getEmployerId()) return true;
+        // 中标自由职业者——查 order 表
+        List<com.freelite.model.Order> orders = orderDao.findByProject(project.getId());
+        if (orders != null) {
+            for (com.freelite.model.Order o : orders) {
+                if (o.getFreelancerId() == user.getId()) return true;
+            }
+        }
+        return false;
     }
 }
