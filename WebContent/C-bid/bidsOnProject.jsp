@@ -23,7 +23,7 @@
     <nav class="navbar">
         <div class="container">
             <a class="navbar-brand fw-bold" href="<%= request.getContextPath() %>/projects" style="color: #667eea;">Freelite</a>
-            <a href="<%= request.getContextPath() %>/project/<%= projectId %>" class="text-decoration-none text-muted">← 返回项目</a>
+            <a href="<%= request.getContextPath() %>/projects" class="text-decoration-none text-muted">← 返回项目列表</a>
         </div>
     </nav>
 
