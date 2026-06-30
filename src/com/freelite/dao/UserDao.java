@@ -17,6 +17,7 @@ public class UserDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("数据库连接失败：" + e.getMessage());
         }
         return null;
     }
@@ -31,6 +32,7 @@ public class UserDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("数据库连接失败：" + e.getMessage());
         }
         return null;
     }
@@ -50,6 +52,7 @@ public class UserDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("数据库连接失败：" + e.getMessage());
         }
         return -1;
     }
@@ -64,6 +67,7 @@ public class UserDao {
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("数据库连接失败：" + e.getMessage());
         }
     }
 
@@ -78,6 +82,7 @@ public class UserDao {
             ps.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException("数据库连接失败：" + e.getMessage());
         }
     }
 
